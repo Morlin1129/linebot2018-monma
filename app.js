@@ -50,6 +50,9 @@ function getMessageText(text) {
   var message;
   if(text.match(/こんにちは|こんにちわ|今日は/)){
     message = 'こんにちは!';
+    var now = new Date();
+    var hour = now.getHours();
+    message += "今は" + hour + "時です";
   } else if(text.match(/こんばんは|こんばんわ/)){
     message ='こんばんは！'
   } else {
