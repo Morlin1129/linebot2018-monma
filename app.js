@@ -18,30 +18,30 @@ app.get("/hello", function(req, res, next){
 });
 
 //今後LINEに接続するときに使います
-// const line = require('@line/bot-sdk');
-// const config = {
-//   channelAccessToken: '',
-//   channelSecret: ''
-// };
+const line = require('@line/bot-sdk');
+const config = {
+  channelAccessToken: 'vfmWUMdysdM3XMeEx1FXhLnRswFehOWobRillTY1gdU9hL2Fd63BMvtoKzzaD5SalJNE4W7Zs6zfACFXTIIEXyyo5ICSmUi3jg/TyGHaQRpz/Tz4O1xLqUc+PnlXcUbSwV74t9blK4Y6fu9DpSyhCgdB04t89/1O/w1cDnyilFU=',
+  channelSecret: 'd206373e1a4940c5409ba0a8b962bbd7'
+};
 
-// app.post('/line', line.middleware(config), function(req, res) {
-//   Promise
-//   .all(req.body.events.map(handleEvent))
-//   .then(function(result) {
-//     res.json(result)
-//   });
-// });
+app.post('/line', line.middleware(config), function(req, res) {
+  Promise
+  .all(req.body.events.map(handleEvent))
+  .then(function(result) {
+    res.json(result)
+  });
+});
 
-// const client = new line.Client(config);
-// function handleEvent(event) {
-//   if (event.type !== 'message' || event.message.type !== 'text') {
-//     return Promise.resolve(null);
-//   }
-//   return client.replyMessage(event.replyToken, {
-//     type: 'text',
-//     text: getMessageText(event.message.text)
-//   });
-// }
+const client = new line.Client(config);
+function handleEvent(event) {
+  if (event.type !== 'message' || event.message.type !== 'text') {
+    return Promise.resolve(null);
+  }
+  return client.replyMessage(event.replyToken, {
+    type: 'text',
+    text: getMessageText(event.message.text)
+  });
+}
 
 //ここまでLINEに接続するコード
 
