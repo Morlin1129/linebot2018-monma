@@ -48,6 +48,46 @@ function handleEvent(event) {
 //まずはここを触っていきます。
 function getMessageText(text) {
   var message;
+  var recipes = [{
+    title : "目玉焼き",
+    syokuzai:[
+      {
+        material : "卵",
+        amount :"一個"
+      },
+      {
+       material :"油",
+       amount :"大さじ1"
+     },
+      {
+       material :"愛情",
+       amount :"多め"
+     },
+     ],
+  tukurikata : "いためる",
+  yosan :"5000兆円"
+},
+{
+title : "料理の名前",
+syokuzai:[
+  {
+    material : "食材A",
+    amount :"大さじ1"
+  },
+  {
+   material :"食材2",
+   amount :"大さじ1"
+ },
+  {
+   material :"食材3",
+   amount :"大さじ1"
+ },
+ ],
+tukurikata : "いためる",
+yosan :"5000兆円"
+}
+];
+
   if(text.match(/こんにちは|こんにちわ|今日は/)){
     message = 'こんにちは!';
     var now = new Date();
@@ -56,7 +96,39 @@ function getMessageText(text) {
     message += "今は" + hour + "時です";
   } else if(text.match(/こんばんは|こんばんわ/)){
     message ='こんばんは！'
-  } else {
+  } else if (text.match(/レシピ/))　{
+  message = 'とりあえずまずは一つ目のレシピを出してみます\n';
+
+  var sercMaterial = text.split('レシピ')[0].trim();
+  var filteredRecipes = recipes.filter(function(v){
+    for(var i=0;i< v.syokuzai.length;i++){
+      if(sercMaterial.indexOf(v.syokuzai[0].material)>=0){
+        return true;
+    }
+  }
+  return false;
+});
+var recipe;
+if(filteredRecipes.length){
+  recipe= filteredRecipes[0];
+  message+= 'こちらのレシピが見つかりました。';
+}else{
+  message = 'お探しの食材のレシピが見つかりませんでした';
+  return message;
+}
+
+  //var recipe = recipes[0];
+  message += "---" + "\n";
+  message += recipe.title +"\n";
+  message += recipe.yosan +"\n";
+  message += "◇材料◇"　+"\n";
+  for(var i=0;i <  recipe.syokuzai.length;i++) {
+     message += "." + recipe.syokuzai[i].material + "--" +recipe.syokuzai[i].amount +"\n";
+   }
+   message += recipe.tukurikata + "\n";
+
+ }else{
+
     message='まだあいさつくらいしか返せません・・・';
   }
   return message;
